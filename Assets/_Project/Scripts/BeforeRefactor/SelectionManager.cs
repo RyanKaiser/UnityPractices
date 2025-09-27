@@ -15,12 +15,13 @@ namespace BeforRefactor
             if (_selection != null)
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
-                selectionRenderer.material = defaultMaterial;
-                _selection = null;
+                if (selectionRenderer != null)
+                {
+                    selectionRenderer.material = defaultMaterial;
+                }
             }
 
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             _selection = null;
             if (Physics.Raycast(ray, out var hit))
             {
