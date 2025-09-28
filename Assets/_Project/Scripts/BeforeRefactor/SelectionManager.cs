@@ -7,8 +7,13 @@ namespace BeforRefactor
         [SerializeField] private string selectableTag = "Selectable";
 
         private Transform _selection;
-        private HighlightSelectionResponse _selectionResponse;
+        private ISelectionResponse _selectionResponse;
 
+        private void Awake()
+        {
+            _selectionResponse = GetComponent<ISelectionResponse>();
+        }
+        
         private void Update()
         {
             if (_selection != null)
@@ -34,31 +39,6 @@ namespace BeforRefactor
             if (_selection != null)
             {
                 _selectionResponse.OnSelected(_selection);
-            }
-        }
-    }
-
-    internal class HighlightSelectionResponse : MonoBehaviour
-    {
-        [SerializeField] public Material highlightMaterial;
-        [SerializeField] public Material defaultMaterial;
-
-
-        public void OnDeselected(Transform selection)
-        {
-            var selectionRenderer = selection.GetComponent<Renderer>();
-            if (selectionRenderer != null)
-            {
-                selectionRenderer.material = this.defaultMaterial;
-            }
-        }
-
-        public void OnSelected(Transform selection)
-        {
-            var selectionRenderer = selection.GetComponent<Renderer>();
-            if (selectionRenderer != null)
-            {
-                selectionRenderer.material = this.highlightMaterial;
             }
         }
     }
