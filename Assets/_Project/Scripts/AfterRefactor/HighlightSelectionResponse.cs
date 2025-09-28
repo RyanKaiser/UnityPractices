@@ -1,25 +1,28 @@
 using UnityEngine;
 
-internal class HighlightSelectionResponse : MonoBehaviour, ISelectionResponse
+namespace AfterRefactor
 {
-    [SerializeField] public Material highlightMaterial;
-    [SerializeField] public Material defaultMaterial;
-
-    public void OnSelect(Transform selection)
+    internal class HighlightSelectionResponse : MonoBehaviour, ISelectionResponse
     {
-        var selectionRenderer = selection.GetComponent<Renderer>();
-        if (selectionRenderer != null)
+        [SerializeField] public Material highlightMaterial;
+        [SerializeField] public Material defaultMaterial;
+
+        public void OnSelect(Transform selection)
         {
-            selectionRenderer.material = this.highlightMaterial;
+            var selectionRenderer = selection.GetComponent<Renderer>();
+            if (selectionRenderer != null)
+            {
+                selectionRenderer.material = this.highlightMaterial;
+            }
         }
-    }
 
-    public void OnDeselect(Transform selection)
-    {
-        var selectionRenderer = selection.GetComponent<Renderer>();
-        if (selectionRenderer != null)
+        public void OnDeselect(Transform selection)
         {
-            selectionRenderer.material = this.defaultMaterial;
+            var selectionRenderer = selection.GetComponent<Renderer>();
+            if (selectionRenderer != null)
+            {
+                selectionRenderer.material = this.defaultMaterial;
+            }
         }
     }
 }

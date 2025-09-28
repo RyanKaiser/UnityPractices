@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class OutlineSelectionResponse : MonoBehaviour, ISelectionResponse
+namespace AfterRefactor
 {
-    public void OnSelect(Transform selection)
+    public class OutlineSelectionResponse : MonoBehaviour, ISelectionResponse
     {
-        var outline = selection.GetComponent<Outline>();
-        if (outline != null) outline.OutlineWidth = 10;
-    }
+        public void OnSelect(Transform selection)
+        {
+            var outline = selection.GetComponent<Outline>();
+            if (outline != null) outline.OutlineWidth = 10;
+        }
 
-    public void OnDeselect(Transform selection)
-    {
-        var outline = selection.GetComponent<Outline>();
-        if (outline != null) outline.OutlineWidth = 0;
+        public void OnDeselect(Transform selection)
+        {
+            var outline = selection.GetComponent<Outline>();
+            if (outline != null) outline.OutlineWidth = 0;
+        }
     }
 }
