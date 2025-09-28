@@ -5,21 +5,18 @@ namespace BeforRefactor
     public class SelectionManager : MonoBehaviour
     {
         [SerializeField] private string selectableTag = "Selectable";
-        [SerializeField] private Material highlightMaterial;
-        [SerializeField] private Material defaultMaterial;
 
         private Transform _selection;
+        private HighlightSelectionResponse _selectionResponse;
 
         private void Update()
         {
             if (_selection != null)
             {
-                var selectionRenderer = _selection.GetComponent<Renderer>();
-                if (selectionRenderer != null)
-                {
-                    selectionRenderer.material = defaultMaterial;
-                }
+                _selectionResponse.OnDeselected(_selection);
             }
+
+            #region MyRegion
 
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             _selection = null;
@@ -32,13 +29,36 @@ namespace BeforRefactor
                 }
             }
 
+            #endregion
+
             if (_selection != null)
             {
-                var selectionRenderer = _selection.GetComponent<Renderer>();
-                if (selectionRenderer != null)
-                {
-                    selectionRenderer.material = highlightMaterial;
-                }
+                _selectionResponse.OnSelected(_selection);
+            }
+        }
+    }
+
+    internal class HighlightSelectionResponse : MonoBehaviour
+    {
+        [SerializeField] public Material highlightMaterial;
+        [SerializeField] public Material defaultMaterial;
+
+
+        public void OnDeselected(Transform selection)
+        {
+            var selectionRenderer = selection.GetComponent<Renderer>();
+            if (selectionRenderer != null)
+            {
+                selectionRenderer.material = this.defaultMaterial;
+            }
+        }
+
+        public void OnSelected(Transform selection)
+        {
+            var selectionRenderer = selection.GetComponent<Renderer>();
+            if (selectionRenderer != null)
+            {
+                selectionRenderer.material = this.highlightMaterial;
             }
         }
     }
